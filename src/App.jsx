@@ -1,11 +1,10 @@
 import React from 'react'
-import FlightSearch from './pages/SearchFlights'
+import FlightDetails from './pages/FlightDetails'
 
 const App = () => {
   return (
     <div>
-      <FlightSearch/>
-      
+      <FlightDetails/>
     </div>
   )
 }

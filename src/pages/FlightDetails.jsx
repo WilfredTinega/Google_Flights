@@ -1,47 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect } from 'react'
 
-function FlightDetails() {
-  const { id } = useParams();
-  const [flightDetails, setFlightDetails] = useState(null);
+const FlightDetails = () => {
 
-  useEffect(() => {
-    const fetchFlightDetails = async () => {
-      try {
-        const response = await axios.get(`https://sky-scrapper.p.rapidapi.com/api/v1/flights/${id}`, {
-          headers: {
-            'x-rapidapi-key': '437e1f58e9msh668b54ae62de6dfp1adf8ejsnbaf861e8dff3',
-            'x-rapidapi-host': 'sky-scrapper.p.rapidapi.com',
-          },
-        });
-        setFlightDetails(response.data);
-        console.log('Flight Details:', response.data);
-      } catch (error) {
-        console.error('Error fetching flight details:', error);
-      }
+  const getFlightDetails = async () => {
+    const url = 'https://sky-scrapper.p.rapidapi.com/api/v1/flights/getNearByAirports?lat=19.242218017578125&lng=72.85846156046128&locale=en-US';
+    const options = {
+	    method: 'GET',
+	    headers: {
+		    'x-rapidapi-key': import.meta.env.VITE_APP_RAPIDAPI_KEY,
+		    'x-rapidapi-host': 'sky-scrapper.p.rapidapi.com'
+	    }
     };
 
-    fetchFlightDetails();
-  }, [id]);
+    try {
+      const response = await fetch(url, options);
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+
+  }
+  
+  useEffect(() =>{
+    getFlightDetails()
+  })
 
   return (
-    <div className="flight-details">
-      <h1>Flight Details</h1>
-      {flightDetails ? (
-        <div>
-          <p>Flight Number: {flightDetails.flight_number}</p>
-          <p>From: {flightDetails.from}</p>
-          <p>To: {flightDetails.to}</p>
-          <p>Departure: {flightDetails.departure_time}</p>
-          <p>Arrival: {flightDetails.arrival_time}</p>
-          <p>Price: ${flightDetails.price}</p>
-        </div>
-      ) : (
-        <p>Loading flight details...</p>
-      )}
+    <div>
+      
     </div>
-  );
+  )
 }
 
-export default FlightDetails;
+export default FlightDetails
